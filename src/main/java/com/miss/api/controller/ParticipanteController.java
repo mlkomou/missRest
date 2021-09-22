@@ -35,33 +35,23 @@ public class ParticipanteController {
     public ResponseEntity<Map<String, Object>> saveAca(@RequestParam("participante") String participanteString,
                                                        @RequestParam("photo")MultipartFile photo) throws JsonProcessingException {
         Participante participante = new ObjectMapper().readValue(participanteString, Participante.class);
-//        ParticipanteSimple participanteSimple = new ObjectMapper().readValue(participanteString, ParticipanteSimple.class);
-
-//        Participante participante = new Participante();
-//
-//        Optional<Academie> academie = academieRepository.findById(participanteSimple.academieId);
-//        Optional<Ecole> ecole = ecoleRepository.findById(participanteSimple.ecoleid);
-//        Optional<Classe> classe = classeRepository.findById(participanteSimple.classeId);
-//        Optional<Annee> annee = anneeRepository.findById(participanteSimple.anneeId);
-//
-//        participante.setAcademie(academie.get());
-//        participante.setEcole(ecole.get());
-//        participante.setClasse(classe.get());
-//        participante.setAnnee(annee.get());
-//
-//        participante.setDateNaissance(participanteSimple.getDateNaissance());
-//        participante.setLieuNaissance(participanteSimple.getLieuNaissance());
-//        participante.setMail(participanteSimple.getMail());
-//        participante.setNom(participanteSimple.getNom());
-//        participante.setPrenom(participanteSimple.getPrenom());
-//        participante.setTelephone(participanteSimple.getTelephone());
-//        participante.setTelephoneTuteur(participanteSimple.getTelephoneTuteur());
-
-
         return participanteService.saveParticipante(participante, photo);
     }
-    @GetMapping(value = "/participantes/liste")
-    public ResponseEntity<Map<String, Object>> getParticipantes() {
-        return participanteService.getAllParticipante();
+    @PutMapping(value = "/participantes/update")
+    public ResponseEntity<Map<String, Object>> updateParticipante(@RequestBody Participante participante) {
+        return participanteService.updateParticipante(participante);
+    }
+
+    @PutMapping(value = "/participantes/updateWithPhoto")
+    public ResponseEntity<Map<String, Object>> updateParticipanteWithPhoto(@RequestParam("participante") String participanteString,
+                                                                           @RequestParam("photo")MultipartFile photo) throws JsonProcessingException {
+        Participante participante = new ObjectMapper().readValue(participanteString, Participante.class);
+        return participanteService.updateWithPhoto(participante, photo);
+    }
+
+
+    @GetMapping(value = "/participantes/liste/{page}/{size}")
+    public ResponseEntity<Map<String, Object>> getParticipantes(@PathVariable int page, @PathVariable int size) {
+        return participanteService.getAllParticipante(page, size);
     }
 }

@@ -22,4 +22,11 @@ public class UploadImageService {
         Files.copy(inputStream, path.resolve(millisDate + photo.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
         return millisDate.toString() + photo.getOriginalFilename();
     }
+
+    public String updateUploadImage(MultipartFile photo, String fileName) throws IOException {
+
+        InputStream inputStream = photo.getInputStream();
+        Files.copy(inputStream, path.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+        return fileName;
+    }
 }
