@@ -1,10 +1,21 @@
 package com.miss.api.model;
 
+import com.miss.api.auth.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "comite")
 @Access(AccessType.FIELD)
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Comite extends Generalite {
     @Column(name = "nom")
     private String nom;
@@ -24,53 +35,11 @@ public class Comite extends Generalite {
     @Column(name = "photo")
     private String photo;
 
-    public String getNom() {
-        return nom;
-    }
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private User user;
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getStructure() {
-        return structure;
-    }
-
-    public void setStructure(String structure) {
-        this.structure = structure;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 
     @Override
     public String toString() {

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -29,7 +30,6 @@ public class ParticipanteService {
     public ResponseEntity<Map<String, Object>> saveParticipante(Participante participante, MultipartFile photo) {
         try {
             participante.setPhoto(uploadImageService.uploadImage(photo));
-
             Participante participante1 = participanteRepository.save(participante);
             response.put("message", "Participante enregistrée avec succès.");
             response.put("response", participante1);

@@ -1,10 +1,21 @@
 package com.miss.api.model;
 
+import com.miss.api.auth.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "accompagnatrice")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Accompagnatrice extends Generalite {
     @Column(name = "prenom")
     private String prenom;
@@ -28,59 +39,9 @@ public class Accompagnatrice extends Generalite {
     @JoinColumn(name="academie", nullable=false)
     private Academie academie;
 
-    public String getPrenom() {
-        return prenom;
-    }
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private User user;
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getFonction() {
-        return fonction;
-    }
-
-    public void setFonction(String fonction) {
-        this.fonction = fonction;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public Academie getAcademie() {
-        return academie;
-    }
-
-    public void setAcademie(Academie academie) {
-        this.academie = academie;
-    }
 }

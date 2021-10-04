@@ -1,5 +1,7 @@
 package com.miss.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,35 +15,43 @@ public class Generalite implements Serializable {
     public long id;
 
     @Column(name = "dateCreation", nullable = false)
-    public Date dateCreation;
+    public String dateCreation;
     @Column(name = "dateModification", nullable = false)
-    public Date dateModification;
+    public String dateModification;
     @Column(name = "supprime", nullable = false)
     public boolean supprime;
     @Column(name = "createdBy", nullable = false)
     public int createdBy;
 
-    public Date getDateCreation() {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(Date dateCreation) {
+    public void setDateCreation(String dateCreation) {
         this.dateCreation = dateCreation;
     }
 
-    public Date getDateModification() {
+    public String getDateModification() {
         return dateModification;
     }
 
-    public void setDateModification(Date dateModification) {
+    public void setDateModification(String dateModification) {
         this.dateModification = dateModification;
     }
 
-    public boolean isDelete() {
+    public boolean isSupprime() {
         return supprime;
     }
 
-    public void setDelete(boolean supprime) {
+    public void setSupprime(boolean supprime) {
         this.supprime = supprime;
     }
 
@@ -52,16 +62,6 @@ public class Generalite implements Serializable {
     public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-
 
     @Override
     public String toString() {

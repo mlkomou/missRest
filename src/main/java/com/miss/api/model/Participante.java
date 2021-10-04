@@ -1,6 +1,11 @@
 package com.miss.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.miss.api.auth.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,6 +14,11 @@ import java.util.Set;
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "participante")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Participante extends Generalite {
     @Column(name = "prenom")
     private String prenom;
@@ -55,110 +65,21 @@ public class Participante extends Generalite {
     private Set<Laureate> laureate;
 
 
+    @ManyToOne
+    @JoinColumn(name="suivi8emeId")
+    private Suivi8eme suivi8eme;
 
-    public String getPrenom() {
-        return prenom;
-    }
+    @ManyToOne
+    @JoinColumn(name="suivi3eme6emeId")
+    private Suivi3eme8eme suivi3eme6eme;
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
+    @ManyToOne
+    @JoinColumn(name="suivi10eme12emeId")
+    private Suivi10eme12eme suivi10eme12eme;
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Ecole getEcole() {
-        return ecole;
-    }
-
-    public void setEcole(Ecole ecole) {
-        this.ecole = ecole;
-    }
-
-    public Classe getClasse() {
-        return classe;
-    }
-
-    public void setClasse(Classe classe) {
-        this.classe = classe;
-    }
-
-    public Annee getAnnee() {
-        return annee;
-    }
-
-    public void setAnnee(Annee annee) {
-        this.annee = annee;
-    }
-
-    public Academie getAcademie() {
-        return academie;
-    }
-
-    public void setAcademie(Academie academie) {
-        this.academie = academie;
-    }
-
-    public Date getDateNaissance() {
-        return dateNaissance;
-    }
-
-    public void setDateNaissance(Date dateNaissance) {
-        this.dateNaissance = dateNaissance;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public int getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(int telephone) {
-        this.telephone = telephone;
-    }
-
-    public int getTelephoneTuteur() {
-        return telephoneTuteur;
-    }
-
-    public void setTelephoneTuteur(int telephoneTuteur) {
-        this.telephoneTuteur = telephoneTuteur;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public String getLieuNaissance() {
-        return lieuNaissance;
-    }
-
-    public void setLieuNaissance(String lieuNaissance) {
-        this.lieuNaissance = lieuNaissance;
-    }
-
-    public Set<Laureate> getLaureate() {
-        return laureate;
-    }
-
-    public void setLaureate(Set<Laureate> laureate) {
-        this.laureate = laureate;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private User user;
 
 
     @Override
