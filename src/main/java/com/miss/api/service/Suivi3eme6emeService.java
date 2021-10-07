@@ -1,6 +1,8 @@
 package com.miss.api.service;
 
+import com.miss.api.model.Participante;
 import com.miss.api.model.Suivi3eme8eme;
+import com.miss.api.repos.ParticipanteRepository;
 import com.miss.api.repos.Suivi3eme6emeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,19 +16,30 @@ import java.util.Optional;
 @Service
 public class Suivi3eme6emeService {
     final Suivi3eme6emeRepository suivi3eme6emeRepository;
+    final ParticipanteRepository participanteRepository;
     Map<String, Object> response = new HashMap<>();
 
-    public Suivi3eme6emeService(Suivi3eme6emeRepository suivi3eme6emeRepository) {
+    public Suivi3eme6emeService(Suivi3eme6emeRepository suivi3eme6emeRepository, ParticipanteRepository participanteRepository) {
         this.suivi3eme6emeRepository = suivi3eme6emeRepository;
+        this.participanteRepository = participanteRepository;
     }
 
 
-    public ResponseEntity<Map<String, Object>> saveSuivi3eme8eme(Suivi3eme8eme suivi3eme8eme) {
+    public ResponseEntity<Map<String, Object>> saveSuivi3eme8eme(Participante participante) {
         try {
-            suivi3eme6emeRepository.save(suivi3eme8eme);
-            response.put("message", "Suivi3eme8eme enregistrée avec succès.");
-            response.put("response", suivi3eme8eme);
-            response.put("code", 100);
+
+            Suivi3eme8eme suivi3eme8eme = suivi3eme6emeRepository.save(participante.getSuivi3eme6eme());
+            Optional<Participante> participanteData = participanteRepository.findById(participante.getId());
+
+            if(participanteData.isPresent()) {
+
+                participante.setSuivi3eme6eme(suivi3eme8eme);
+                Participante participante1 = participanteRepository.save(participante);
+
+                response.put("message", "Suivi3eme6eme enregistrée avec succès.");
+                response.put("response", participante1);
+                response.put("code", 100);
+            }
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.put("message", "Enregistrement de l'école échoué.");

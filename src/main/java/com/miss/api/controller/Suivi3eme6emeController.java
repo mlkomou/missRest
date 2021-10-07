@@ -1,5 +1,6 @@
 package com.miss.api.controller;
 
+import com.miss.api.model.Participante;
 import com.miss.api.model.Suivi3eme8eme;
 import com.miss.api.service.Suivi3eme6emeService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class Suivi3eme6emeController {
 
 
     @PostMapping(value = "/suivi3eme6emes/create")
-    public ResponseEntity<Map<String, Object>> saveAca(@RequestBody Suivi3eme8eme suivi3eme6eme) {
+    public ResponseEntity<Map<String, Object>> saveAca(@RequestBody Participante suivi3eme6eme) {
         return suivi3eme6emeService.saveSuivi3eme8eme(suivi3eme6eme);
     }
     @GetMapping(value = "/suivi3eme6emes/liste")
