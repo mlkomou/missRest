@@ -32,8 +32,8 @@ public class Suivi10eme12emeService {
 
             if(participanteData.isPresent()) {
 
-                participante.setSuivi10eme12eme(suivi10eme12eme);
-                Participante participante1 = participanteRepository.save(participante);
+                participanteData.get().setSuivi10eme12eme(suivi10eme12eme);
+                Participante participante1 = participanteRepository.save(participanteData.get());
 
                 response.put("message", "Suivi10eme12eme enregistrée avec succès.");
                 response.put("response", participante1);

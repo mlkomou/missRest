@@ -54,4 +54,13 @@ public class Suivi10eme12eme extends Generalite {
 
     @Column(name = "svtTrimestre3")
     private Long svtTrimestre3;
+
+    @Column(name = "moyenneTrimestre1")
+    private Long moyenneTrimestre1;
+
+    @Column(name = "moyenneTrimestre2")
+    private Long moyenneTrimestre2;
+
+    @Column(name = "moyenneTrimestre3")
+    private Long moyenneTrimestre3;
 }

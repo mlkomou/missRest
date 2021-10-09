@@ -21,6 +21,7 @@ public class AcademieService {
     }
 
     public ResponseEntity<Map<String, Object>> saveAcademie(Academie academie) {
+
         try {
             academieRepository.save(academie);
             response.put("message", "Académie enregistré avec succès.");
@@ -29,7 +30,7 @@ public class AcademieService {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.put("message", "Enregistrement de l'acdémie échoué.");
-            response.put("response", new Object());
+            response.put("response", e.getStackTrace());
             response.put("code", 200);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

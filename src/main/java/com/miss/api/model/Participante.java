@@ -26,6 +26,12 @@ public class Participante extends Generalite {
     @Column(name = "nom")
     private String nom;
 
+    @Column(name = "isLaureate")
+    private String isLaureate;
+
+    @Column(name = "matricule")
+    private String matricule;
+
     @ManyToOne
     @JoinColumn(name="ecole", nullable=false)
     private Ecole ecole;

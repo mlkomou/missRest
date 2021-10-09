@@ -1,13 +1,11 @@
 package com.miss.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -52,4 +50,13 @@ public class Suivi3eme8eme extends Generalite {
 
     @Column(name = "sciencesObsTrimestre3")
     private Long sciencesObsTrimestre3;
+
+    @Column(name = "moyenneTrimestre1")
+    private Long moyenneTrimestre1;
+
+    @Column(name = "moyenneTrimestre2")
+    private Long moyenneTrimestre2;
+
+    @Column(name = "moyenneTrimestre3")
+    private Long moyenneTrimestre3;
 }

@@ -26,15 +26,19 @@ public class Suivi8emeService {
 
     public ResponseEntity<Map<String, Object>> saveSuivi8eme(Participante participante) {
         try {
-            Suivi8eme suivi8eme = suivi8emeRepository.save(participante.getSuivi8eme());
+
             Optional<Participante> participanteData = participanteRepository.findById(participante.getId());
             if(participanteData.isPresent()) {
-
-                participante.setSuivi8eme(suivi8eme);
-               Participante participante1 = participanteRepository.save(participante);
+                System.out.println("participante 8 eme " + participante.getId());
+                Suivi8eme suivi8eme = suivi8emeRepository.save(participante.getSuivi8eme());
+                System.out.println("suivi 8eme " + suivi8eme.getBiologieTrimestre1());
+                participanteData.get().setSuivi8eme(suivi8eme);
+                System.out.println("set suivi 8 eme partici "+ participante.getSuivi8eme().getBiologieTrimestre1());
+                Participante participante1 = participanteRepository.save(participanteData.get());
+                System.out.println("update parti "+participante1.getId());
 
                 response.put("message", "Suivi8eme enregistrée avec succès.");
-                response.put("response", participante1);
+                response.put("response", participante);
                 response.put("code", 100);
             }
             return new ResponseEntity<>(response, HttpStatus.OK);

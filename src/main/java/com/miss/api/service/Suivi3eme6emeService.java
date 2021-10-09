@@ -27,12 +27,9 @@ public class Suivi3eme6emeService {
 
     public ResponseEntity<Map<String, Object>> saveSuivi3eme8eme(Participante participante) {
         try {
-
-            Suivi3eme8eme suivi3eme8eme = suivi3eme6emeRepository.save(participante.getSuivi3eme6eme());
             Optional<Participante> participanteData = participanteRepository.findById(participante.getId());
-
             if(participanteData.isPresent()) {
-
+                Suivi3eme8eme suivi3eme8eme = suivi3eme6emeRepository.save(participante.getSuivi3eme6eme());
                 participante.setSuivi3eme6eme(suivi3eme8eme);
                 Participante participante1 = participanteRepository.save(participante);
 

@@ -10,13 +10,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+//    Map<String, Object> response = new HashMap<>();
 
     public CResponse<List<User>> listOfUsers() {
         try {
@@ -39,6 +40,7 @@ public class UserService {
     }
 
     public CResponse<User> edit(User user) {
+        System.out.println("user " + user.getUsername());
         try {
             // if empty so => not exist, else => exist
             boolean existingUser = userRepository.checkExistingUser(user.getId(), user.getUsername()).isEmpty();
@@ -84,5 +86,30 @@ public class UserService {
             return CResponse.error("Ce nom existe deja!");
         }
     }
+
+//    public ResponseEntity<Map<String, Object>> setUserRole(User user) {
+//        System.out.println("user name "+ user.getUsername()) ;
+//        User user2 = new User();
+//        try {
+//
+//
+//            Optional<User> user1 = userRepository.findById(user.getId());
+//            if(user1.isPresent()) {
+//                Set<Role> roles = user.getRoles();
+//                user.setRoles(roles);
+//              user2 = userRepository.save(user);
+//            }
+//
+//            response.put("message", "Role enregistrée avec succès.");
+//            response.put("response", user2);
+//            response.put("code", 100);
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } catch (Exception e) {
+//            response.put("message", "Enregistrement de l'année échoué.");
+//            response.put("response", new Object());
+//            response.put("code", 200);
+//            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 }
 

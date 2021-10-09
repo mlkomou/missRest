@@ -54,4 +54,13 @@ public class Suivi8eme extends Generalite{
 
     @Column(name = "biologieTrimestre3")
     private Long biologieTrimestre3;
+
+    @Column(name = "moyenneTrimestre1")
+    private Long moyenneTrimestre1;
+
+    @Column(name = "moyenneTrimestre2")
+    private Long moyenneTrimestre2;
+
+    @Column(name = "moyenneTrimestre3")
+    private Long moyenneTrimestre3;
 }
