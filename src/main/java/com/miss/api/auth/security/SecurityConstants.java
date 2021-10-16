@@ -5,6 +5,8 @@ public class SecurityConstants {
     public static final String FORGET_PWD_LOGOUT_URL = "/auth/forget_pwd";
     public static final String USER_SAVE_URL = "/users";
     public static final String IMAGE_URL = "/photos/**";
+    public static final String ARTICLE_URL = "/articles/**";
+    public static final String RECIT_URL = "/recits/**";
 
     // Signing key for HS512 algorithm
     // You can use the page https://mkjwk.org/ to generate all kinds of keys

@@ -54,6 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(SecurityConstants.USER_SAVE_URL).permitAll()//
                 .antMatchers(SecurityConstants.FORGET_PWD_LOGOUT_URL).permitAll()//
                 .antMatchers(SecurityConstants.IMAGE_URL).permitAll()//
+                .antMatchers(SecurityConstants.ARTICLE_URL).permitAll()//
+                .antMatchers(SecurityConstants.RECIT_URL).permitAll()//
 
                 .anyRequest().authenticated();
 

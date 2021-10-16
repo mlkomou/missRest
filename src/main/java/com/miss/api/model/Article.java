@@ -9,6 +9,7 @@ public class Article extends Generalite {
     @Column(name = "titre")
     private String titre;
 
+    @Lob
     @Column(name = "description")
     private String description;
 
