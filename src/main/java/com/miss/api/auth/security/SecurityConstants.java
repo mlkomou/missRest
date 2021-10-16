@@ -7,6 +7,8 @@ public class SecurityConstants {
     public static final String IMAGE_URL = "/photos/**";
     public static final String ARTICLE_URL = "/articles/**";
     public static final String RECIT_URL = "/recits/**";
+    public static final String PARTENAIRE_URL = "/partenaires/**";
+    public static final String CONTACT_URL = "/contacts/**";
 
     // Signing key for HS512 algorithm
     // You can use the page https://mkjwk.org/ to generate all kinds of keys

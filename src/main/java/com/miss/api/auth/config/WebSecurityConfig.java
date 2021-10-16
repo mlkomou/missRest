@@ -56,6 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(SecurityConstants.IMAGE_URL).permitAll()//
                 .antMatchers(SecurityConstants.ARTICLE_URL).permitAll()//
                 .antMatchers(SecurityConstants.RECIT_URL).permitAll()//
+                .antMatchers(SecurityConstants.PARTENAIRE_URL).permitAll()//
+                .antMatchers(SecurityConstants.CONTACT_URL).permitAll()//
 
                 .anyRequest().authenticated();
 
