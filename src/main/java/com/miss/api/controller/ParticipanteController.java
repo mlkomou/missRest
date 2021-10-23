@@ -53,4 +53,9 @@ public class ParticipanteController {
     public ResponseEntity<Map<String, Object>> getParticipantes(@PathVariable int page, @PathVariable int size) {
         return participanteService.getAllParticipante(page, size);
     }
+
+    @GetMapping(value = "/participantes/statistiques/academie")
+    public ResponseEntity<Map<String, Object>> getStatisqueByAcademie() {
+        return participanteService.getParticipanteByAcademie();
+    }
 }

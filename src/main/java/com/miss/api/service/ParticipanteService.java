@@ -1,8 +1,12 @@
 package com.miss.api.service;
 
+import com.miss.api.model.Academie;
 import com.miss.api.model.Compteur;
+import com.miss.api.model.Ecole;
 import com.miss.api.model.Participante;
+import com.miss.api.repos.AcademieRepository;
 import com.miss.api.repos.CompteurRepository;
+import com.miss.api.repos.EcoleRepository;
 import com.miss.api.repos.ParticipanteRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +25,17 @@ public class ParticipanteService {
     final UploadImageService uploadImageService;
     final CompteurService compteurService;
     final CompteurRepository compteurRepository;
+    final EcoleRepository ecoleRepository;
+    final AcademieRepository academieRepository;
     Map<String, Object> response = new HashMap<>();
 
-    public ParticipanteService(ParticipanteRepository participanteRepository, UploadImageService uploadImageService, CompteurService compteurService, CompteurRepository compteurRepository) {
+    public ParticipanteService(ParticipanteRepository participanteRepository, UploadImageService uploadImageService, CompteurService compteurService, CompteurRepository compteurRepository, EcoleRepository ecoleRepository, AcademieRepository academieRepository) {
         this.participanteRepository = participanteRepository;
         this.uploadImageService = uploadImageService;
         this.compteurService = compteurService;
         this.compteurRepository = compteurRepository;
+        this.ecoleRepository = ecoleRepository;
+        this.academieRepository = academieRepository;
     }
 
     public ResponseEntity<Map<String, Object>> saveParticipante(Participante participante, MultipartFile photo) {
@@ -49,6 +57,16 @@ public class ParticipanteService {
         };
         Compteur compteur = new Compteur();
         compteur.setNombre(maxNumber);
+
+        Ecole ecole = ecoleRepository.findByNom(participante.getEcole().getNom());
+        if (ecole == null) {
+          Ecole ecole1 = ecoleRepository.save(participante.getEcole());
+          participante.setEcole(ecole1);
+            System.out.println("ecole not exist");
+        } else {
+            participante.setEcole(ecole);
+            System.out.println("ecole exist");
+        }
         compteurRepository.save(compteur);
 
         try {
@@ -67,6 +85,15 @@ public class ParticipanteService {
     }
 
     public ResponseEntity<Map<String, Object>> updateWithPhoto(Participante participante, MultipartFile photo) {
+        Ecole ecole = ecoleRepository.findByNom(participante.getEcole().getNom());
+        if (ecole == null) {
+            Ecole ecole1 = ecoleRepository.save(participante.getEcole());
+            participante.setEcole(ecole1);
+            System.out.println("ecole not exist");
+        } else {
+            participante.setEcole(ecole);
+            System.out.println("ecole exist");
+        }
         try {
             Optional<Participante> participanteData = participanteRepository.findById(participante.getId());
             participante.setPhoto(uploadImageService.updateUploadImage(photo, participante.getPhoto()));
@@ -87,6 +114,15 @@ public class ParticipanteService {
         }
     }
     public ResponseEntity<Map<String, Object>> updateParticipante(Participante participante) {
+        Ecole ecole = ecoleRepository.findByNom(participante.getEcole().getNom());
+        if (ecole == null) {
+            Ecole ecole1 = ecoleRepository.save(participante.getEcole());
+            participante.setEcole(ecole1);
+            System.out.println("ecole not exist");
+        } else {
+            participante.setEcole(ecole);
+            System.out.println("ecole exist");
+        }
         try {
             Optional<Participante> participanteData = participanteRepository.findById(participante.getId());
             if(participanteData.isPresent()) {
@@ -118,6 +154,32 @@ public class ParticipanteService {
             response.put("code", 200);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public ResponseEntity<Map<String, Object>> getParticipanteByAcademie() {
+        try {
+            List<Academie> academies = academieRepository.findAll();
+            ArrayList participanteByAcademie = new ArrayList();
+            Map<String, Object> respToReturn = new HashMap<>();
+
+            for (Academie academie : academies) {
+                List<Participante> participantes = participanteRepository.findByAcademieId(academie.id);
+                if (participantes.size() > 0) {
+                    response.put("academie", academie.getNom());
+                    response.put("participantes", participantes);
+                    participanteByAcademie.add(response);
+                    response = new HashMap<>();
+                }
+            }
+
+            respToReturn.put("response", participanteByAcademie);
+            respToReturn.put("code", 200);
+            respToReturn.put("message", "Statistiques par académie");
+            return new ResponseEntity<>(respToReturn, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 }

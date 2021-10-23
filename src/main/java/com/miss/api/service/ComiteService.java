@@ -78,10 +78,18 @@ public class ComiteService {
             comite.setPhoto(uploadImageService.uploadImage(photo));
 
             Comite comite1 = comiteRepository.save(comite);
-            response.put("message", "Comite enregistrée avec succès.");
-            response.put("response", comite1);
-            response.put("code", 100);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            if (comite1 != null) {
+                response.put("message", "Comite enregistrée avec succès.");
+                response.put("response", comite1);
+                response.put("code", 100);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+
+            }
+            response.put("message", "Enregistrement de l'école échoué.");
+            response.put("response", new Object());
+            response.put("code", 200);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
         } catch (Exception e) {
             response.put("message", "Enregistrement de l'école échoué.");
             response.put("response", new Object());
