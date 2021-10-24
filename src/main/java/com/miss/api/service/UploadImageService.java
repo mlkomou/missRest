@@ -13,8 +13,8 @@ import java.util.Calendar;
 
 @Service
 public class UploadImageService {
-//    Path path = Paths.get("/var/www/miss/photo");
-    Path path = Paths.get("/Users/applehousebamako/Documents/missPhoto/participante");
+    Path path = Paths.get("/var/www/miss/photo");
+//    Path path = Paths.get("/Users/applehousebamako/Documents/missPhoto/participante");
 
     public String uploadImage(MultipartFile photo) throws IOException {
         Calendar cal = Calendar.getInstance();

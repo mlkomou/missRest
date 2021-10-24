@@ -17,8 +17,8 @@ public class DownloadImageController {
     public ResponseEntity<ByteArrayResource> getImage(@PathVariable("photo") String photo) {
         if(!photo.equals("") || photo != null) {
             try {
-//                String path = "/var/www/miss/photo";
-                String path = "/Users/applehousebamako/Documents/missPhoto/participante";
+                String path = "/var/www/miss/photo";
+//                String path = "/Users/applehousebamako/Documents/missPhoto/participante";
                 Path fileName = Paths.get(path, photo);
                 byte[] buffer = Files.readAllBytes(fileName);
                 ByteArrayResource byteArrayResource = new ByteArrayResource(buffer);

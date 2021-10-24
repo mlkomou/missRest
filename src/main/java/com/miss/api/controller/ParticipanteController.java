@@ -56,6 +56,16 @@ public class ParticipanteController {
 
     @GetMapping(value = "/participantes/statistiques/academie")
     public ResponseEntity<Map<String, Object>> getStatisqueByAcademie() {
-        return participanteService.getParticipanteByAcademie();
+        return participanteService.getParticipanteStatistiqueByAcademie();
+    }
+
+    @GetMapping(value = "/participantes/statistiques/age")
+    public ResponseEntity<Map<String, Object>> getStatisqueByAge() {
+        return participanteService.getParticipanteStatistiqueByAge();
+    }
+
+    @GetMapping(value = "/participantes/statistiques/annee")
+    public ResponseEntity<Map<String, Object>> getStatisqueByAnnee() {
+        return participanteService.getStaByAnnee();
     }
 }

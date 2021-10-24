@@ -11,5 +11,6 @@ import java.util.List;
 public interface ParticipanteRepository extends JpaRepository<Participante, Long> {
     Page<Participante> findAll(Pageable pageable);
     List<Participante> findByAcademieId(Long academieId);
+    List<Participante> findByAnneeId(Long anneeId);
 
 }
