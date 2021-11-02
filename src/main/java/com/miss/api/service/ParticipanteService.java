@@ -300,4 +300,55 @@ public class ParticipanteService {
         }
     }
 
+    public ResponseEntity<Map<String, Object>> searchParticipante(ParticipanteSearch participanteSearch) {
+        List<Participante> participantes = new ArrayList<>();
+        try {
+            if ((participanteSearch.prenom != null) && (participanteSearch.nom == null)
+                    && (participanteSearch.academieId == null)
+                    && (participanteSearch.anneeId == null)
+                    && (participanteSearch.classeId == null)) {
+                participantes = participanteRepository.findAllByPrenom(participanteSearch.getPrenom());
+            }
+
+            if ((participanteSearch.prenom == null) && (participanteSearch.nom != null)
+                    && (participanteSearch.academieId == null)
+                    && (participanteSearch.anneeId == null)
+                    && (participanteSearch.classeId == null)) {
+                participantes = participanteRepository.findAllByNom(participanteSearch.getNom());
+            }
+
+            if ((participanteSearch.prenom == null) && (participanteSearch.nom == null)
+                    && (participanteSearch.academieId != null)
+                    && (participanteSearch.anneeId == null)
+                    && (participanteSearch.classeId == null)) {
+                participantes = participanteRepository.findByAcademieId(participanteSearch.getAcademieId());
+            }
+
+            if ((participanteSearch.prenom == null) && (participanteSearch.nom == null)
+                    && (participanteSearch.academieId == null)
+                    && (participanteSearch.anneeId != null)
+                    && (participanteSearch.classeId == null)) {
+                participantes = participanteRepository.findByAnneeId(participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.prenom == null) && (participanteSearch.nom == null)
+                    && (participanteSearch.academieId == null)
+                    && (participanteSearch.anneeId == null)
+                    && (participanteSearch.classeId != null)) {
+                participantes = participanteRepository.findAllByClasseId(participanteSearch.getClasseId());
+            }
+
+
+
+            response.put("message", "Participante trouvées");
+            response.put("response", participantes);
+            response.put("code", 100);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("message", "Erreur de recupération.");
+            response.put("response", new Participante());
+            response.put("code", 200);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
