@@ -41,27 +41,28 @@ public class ParticipanteService {
     public ResponseEntity<Map<String, Object>> saveParticipante(Participante participante, MultipartFile photo) {
         Integer maxNumber = compteurService.getNumberMax();
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        if(maxNumber.toString().length() == 1) {
-            String matricule = "MISS_SCIENCES"+year+"MA"+"00"+maxNumber.toString();
+        if (maxNumber.toString().length() == 1) {
+            String matricule = "MISS_SCIENCES" + year + "MA" + "00" + maxNumber.toString();
             participante.setMatricule(matricule);
         }
 
-        if(maxNumber.toString().length() == 2) {
-            String matricule = "MISS_SCIENCES"+year+"MA"+"0"+maxNumber.toString();
+        if (maxNumber.toString().length() == 2) {
+            String matricule = "MISS_SCIENCES" + year + "MA" + "0" + maxNumber.toString();
             participante.setMatricule(matricule);
         }
 
-        if(maxNumber.toString().length() == 3) {
-            String matricule = "MISS_SCIENCES"+year+"MA"+maxNumber.toString();
+        if (maxNumber.toString().length() == 3) {
+            String matricule = "MISS_SCIENCES" + year + "MA" + maxNumber.toString();
             participante.setMatricule(matricule);
-        };
+        }
+        ;
         Compteur compteur = new Compteur();
         compteur.setNombre(maxNumber);
 
         Ecole ecole = ecoleRepository.findByNom(participante.getEcole().getNom());
         if (ecole == null) {
-          Ecole ecole1 = ecoleRepository.save(participante.getEcole());
-          participante.setEcole(ecole1);
+            Ecole ecole1 = ecoleRepository.save(participante.getEcole());
+            participante.setEcole(ecole1);
             System.out.println("ecole not exist");
         } else {
             participante.setEcole(ecole);
@@ -95,11 +96,11 @@ public class ParticipanteService {
             System.out.println("ecole exist");
         }
         try {
-            Optional<Participante> participanteData = participanteRepository.findById(participante.getId());
+            Optional<Participante> participanteData = participanteRepository.findByNom(participante.getNom());
             participante.setPhoto(uploadImageService.updateUploadImage(photo, participante.getPhoto()));
 
 
-            if(participanteData.isPresent()) {
+            if (participanteData.isPresent()) {
                 Participante participante1 = participanteRepository.save(participante);
                 response.put("message", "Participante mise à jour avec succès.");
                 response.put("response", participante1);
@@ -113,6 +114,7 @@ public class ParticipanteService {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     public ResponseEntity<Map<String, Object>> updateParticipante(Participante participante) {
         Ecole ecole = ecoleRepository.findByNom(participante.getEcole().getNom());
         if (ecole == null) {
@@ -124,8 +126,8 @@ public class ParticipanteService {
             System.out.println("ecole exist");
         }
         try {
-            Optional<Participante> participanteData = participanteRepository.findById(participante.getId());
-            if(participanteData.isPresent()) {
+            Optional<Participante> participanteData = participanteRepository.findByNom(participante.getNom());
+            if (participanteData.isPresent()) {
                 participanteRepository.save(participante);
                 response.put("message", "Participante mise à jour avec succès.");
                 response.put("response", participante);
@@ -202,13 +204,13 @@ public class ParticipanteService {
 
 
             List<Participante> participantes = participanteRepository.findAll();
-            System.out.println("first part "+participantes.get(0).getDateNaissance());
+            System.out.println("first part " + participantes.get(0).getDateNaissance());
 
             LocalDateTime ldt = LocalDateTime.now();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date today = sdf.parse(DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt));
-            System.out.println("Second date "+today);
-            System.out.println("total participante "+participantes.size());
+            System.out.println("Second date " + today);
+            System.out.println("total participante " + participantes.size());
 
 
             for (int i = 0; i < participantes.size(); i++) {
@@ -217,38 +219,42 @@ public class ParticipanteService {
                 long days = TimeUnit.MILLISECONDS.toDays(diffInMillies);
 //                System.out.println("age " + participantes.get(i).getPrenom() + " " +days);
                 long years = days / 365;
-                System.out.println("nombre annee "+ " " + i + participantes.get(i).getPrenom() + " " +years);
+                System.out.println("nombre annee " + " " + i + participantes.get(i).getPrenom() + " " + years);
 
 
                 if (years >= 7 && years <= 12) {
                     participantes7a12.add(participantes.get(i));
-                };
+                }
+                ;
                 if (years >= 13 && years <= 18) {
                     participantes13a18.add(participantes.get(i));
-                };
+                }
+                ;
                 if (years >= 19 && years <= 24) {
                     participantes19a24.add(participantes.get(i));
-                };
+                }
+                ;
                 if (years >= 25 && years <= 30) {
                     participantes25a30.add(participantes.get(i));
-                };
+                }
+                ;
             }
 
             respTo7a12Return.put("name", "7 à 12");
             respTo7a12Return.put("drilldown", "7 à 12");
-            respTo7a12Return.put("y", ((double)participantes7a12.size() *100/(double) participantes.size()));
+            respTo7a12Return.put("y", ((double) participantes7a12.size() * 100 / (double) participantes.size()));
 
             respTo13a18Return.put("name", "13 à 18");
             respTo13a18Return.put("drilldown", "13 à 18");
-            respTo13a18Return.put("y", (double)participantes13a18.size() *100/(double) participantes.size());
+            respTo13a18Return.put("y", (double) participantes13a18.size() * 100 / (double) participantes.size());
 
             respTo19a24Return.put("name", "19 à 24");
             respTo19a24Return.put("drilldown", "19 à 24");
-            respTo19a24Return.put("y", (double)participantes19a24.size() *100/(double) participantes.size());
+            respTo19a24Return.put("y", (double) participantes19a24.size() * 100 / (double) participantes.size());
 
             respTo25a30Return.put("name", "25 à 30");
             respTo25a30Return.put("drilldown", "25 à 30");
-            respTo25a30Return.put("y", (double)participantes25a30.size() *100/(double) participantes.size());
+            respTo25a30Return.put("y", (double) participantes25a30.size() * 100 / (double) participantes.size());
 
             participantesGeneralArr.add(respTo7a12Return);
             participantesGeneralArr.add(respTo13a18Return);
@@ -280,7 +286,7 @@ public class ParticipanteService {
 
         try {
             List<Annee> annees = anneeRepository.findAll();
-            for (int i=0; i<annees.size(); i++) {
+            for (int i = 0; i < annees.size(); i++) {
                 List<Participante> participantes = participanteRepository.findByAnneeId(annees.get(i).id);
                 respAnnee.put("name", annees.get(i).getNom());
                 respAnnee.put("y", participantes.size());
@@ -302,42 +308,262 @@ public class ParticipanteService {
 
     public ResponseEntity<Map<String, Object>> searchParticipante(ParticipanteSearch participanteSearch) {
         List<Participante> participantes = new ArrayList<>();
+        System.out.println(participanteSearch.getAnneeId());
+        System.out.println(participanteSearch.getClasseId());
+        System.out.println(participanteSearch.getAcademieId());
+        System.out.println(participanteSearch.getPrenom());
+        System.out.println(participanteSearch.getNom());
         try {
-            if ((participanteSearch.prenom != null) && (participanteSearch.nom == null)
-                    && (participanteSearch.academieId == null)
-                    && (participanteSearch.anneeId == null)
-                    && (participanteSearch.classeId == null)) {
+            if ((participanteSearch.getPrenom() != null) && (participanteSearch.getNom() == null)
+                    && (participanteSearch.getAcademieId() == null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() == null)) {
                 participantes = participanteRepository.findAllByPrenom(participanteSearch.getPrenom());
             }
 
-            if ((participanteSearch.prenom == null) && (participanteSearch.nom != null)
-                    && (participanteSearch.academieId == null)
-                    && (participanteSearch.anneeId == null)
-                    && (participanteSearch.classeId == null)) {
+            if ((participanteSearch.getPrenom() == null) && (participanteSearch.getNom() != null)
+                    && (participanteSearch.getAcademieId() == null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() == null)) {
                 participantes = participanteRepository.findAllByNom(participanteSearch.getNom());
             }
 
-            if ((participanteSearch.prenom == null) && (participanteSearch.nom == null)
-                    && (participanteSearch.academieId != null)
-                    && (participanteSearch.anneeId == null)
-                    && (participanteSearch.classeId == null)) {
-                participantes = participanteRepository.findByAcademieId(participanteSearch.getAcademieId());
+            if ((participanteSearch.getPrenom() == null) && (participanteSearch.getNom() == null)
+                    && (participanteSearch.getAcademieId() != null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() == null)) {
+                participantes = participanteRepository.findByAcademieNom(participanteSearch.getAcademieId());
             }
 
-            if ((participanteSearch.prenom == null) && (participanteSearch.nom == null)
-                    && (participanteSearch.academieId == null)
-                    && (participanteSearch.anneeId != null)
-                    && (participanteSearch.classeId == null)) {
-                participantes = participanteRepository.findByAnneeId(participanteSearch.getAnneeId());
+            if ((participanteSearch.getPrenom() == null) && (participanteSearch.getNom() == null)
+                    && (participanteSearch.getAcademieId() == null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() == null)) {
+                participantes = participanteRepository.findByAnneeNom(participanteSearch.getAnneeId());
             }
 
-            if ((participanteSearch.prenom == null) && (participanteSearch.nom == null)
-                    && (participanteSearch.academieId == null)
-                    && (participanteSearch.anneeId == null)
-                    && (participanteSearch.classeId != null)) {
-                participantes = participanteRepository.findAllByClasseId(participanteSearch.getClasseId());
+            if ((participanteSearch.getPrenom() == null) && (participanteSearch.getNom() == null)
+                    && (participanteSearch.getAcademieId() == null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() != null)) {
+                participantes = participanteRepository.findAllByClasseNom(participanteSearch.getClasseId());
             }
 
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByPrenomAndNom(participanteSearch.getPrenom(), participanteSearch.getNom());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participanteRepository.findAllByPrenomAndAcademieNom(participanteSearch.getPrenom(), participanteSearch.getAcademieId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByPrenomAndClasseNom(participanteSearch.getPrenom(), participanteSearch.getClasseId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByPrenomAndAnneeNom(participanteSearch.getPrenom(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByNomAndAcademieNom(participanteSearch.getNom(), participanteSearch.getAcademieId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByNomAndClasseNom(participanteSearch.getNom(), participanteSearch.getClasseId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByNomAndAnneeNom(participanteSearch.getNom(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByAcademieNomAndClasseNom(participanteSearch.getAcademieId(), participanteSearch.getClasseId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByAcademieNomAndAnneeNom(participanteSearch.getAcademieId(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByClasseNomAndAnneeNom(participanteSearch.getClasseId(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByPrenomAndNomAndAcademieNom(participanteSearch.getPrenom(), participanteSearch.getNom(), participanteSearch.getAcademieId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByPrenomAndNomAndClasseNom(participanteSearch.getPrenom(), participanteSearch.getNom(), participanteSearch.getClasseId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByPrenomAndNomAndAnneeNom(participanteSearch.getPrenom(), participanteSearch.getNom(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByNomAndAcademieNomAndClasseNom(participanteSearch.getNom(), participanteSearch.getAcademieId(), participanteSearch.getClasseId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByNomAndAcademieNomAndAnneeNom(participanteSearch.getNom(), participanteSearch.getAcademieId(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByAcademieNomAndPrenomAndClasseNom(participanteSearch.getAcademieId(), participanteSearch.getPrenom(), participanteSearch.getClasseId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() == null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByAcademieNomAndPrenomAndAnneeNom(participanteSearch.getAcademieId(), participanteSearch.getPrenom(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() == null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findAllByClasseNomAndPrenomAndAcademieNom(participanteSearch.getClasseId(), participanteSearch.getPrenom(), participanteSearch.getAcademieId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findAllByClasseNomAndPrenomAndAnneeNom(participanteSearch.getClasseId(), participanteSearch.getPrenom(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.searchByAllParams(participanteSearch.getNom(), participanteSearch.getPrenom(), participanteSearch.getAcademieId(), participanteSearch.getClasseId(), participanteSearch.getAnneeId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findByNomAndPrenomAndAnneeNomAndClasseNom(participanteSearch.getNom(), participanteSearch.getPrenom(), participanteSearch.getAnneeId(), participanteSearch.getClasseId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() == null)
+            ) {
+                participantes = participanteRepository.findByNomAndPrenomAndAnneeNomAndAcademieNom(participanteSearch.getNom(), participanteSearch.getPrenom(), participanteSearch.getAnneeId(), participanteSearch.getAcademieId());
+            }
+
+            if ((participanteSearch.getNom() == null)
+                    && (participanteSearch.getPrenom() != null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findByPrenomAndAnneeNomAndAcademieNomAndClasseNom(participanteSearch.getPrenom(), participanteSearch.getAnneeId(), participanteSearch.getAcademieId(), participanteSearch.getClasseId());
+            }
+
+            if ((participanteSearch.getNom() != null)
+                    && (participanteSearch.getPrenom() == null)
+                    && (participanteSearch.getAnneeId() != null)
+                    && (participanteSearch.getClasseId() != null)
+                    && (participanteSearch.getAcademieId() != null)
+            ) {
+                participantes = participanteRepository.findByNomAndAnneeNomAndAcademieNomAndClasseNom(participanteSearch.getNom(), participanteSearch.getAnneeId(), participanteSearch.getAcademieId(), participanteSearch.getClasseId());
+            }
 
 
             response.put("message", "Participante trouvées");

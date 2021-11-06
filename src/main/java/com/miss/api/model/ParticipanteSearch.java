@@ -3,9 +3,9 @@ package com.miss.api.model;
 public class ParticipanteSearch {
     public String prenom;
     public String nom;
-    public Long academieId;
-    public Long classeId;
-    public Long anneeId;
+    public String academieId;
+    public String classeId;
+    public String anneeId;
 
     public String getPrenom() {
         return prenom;
@@ -23,27 +23,27 @@ public class ParticipanteSearch {
         this.nom = nom;
     }
 
-    public Long getAcademieId() {
+    public String getAcademieId() {
         return academieId;
     }
 
-    public void setAcademieId(Long academieId) {
+    public void setAcademieId(String academieId) {
         this.academieId = academieId;
     }
 
-    public Long getClasseId() {
+    public String getClasseId() {
         return classeId;
     }
 
-    public void setClasseId(Long classeId) {
+    public void setClasseId(String classeId) {
         this.classeId = classeId;
     }
 
-    public Long getAnneeId() {
+    public String getAnneeId() {
         return anneeId;
     }
 
-    public void setAnneeId(Long anneeId) {
+    public void setAnneeId(String anneeId) {
         this.anneeId = anneeId;
     }
 }

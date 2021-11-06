@@ -68,4 +68,9 @@ public class ParticipanteController {
     public ResponseEntity<Map<String, Object>> getStatisqueByAnnee() {
         return participanteService.getStaByAnnee();
     }
+
+    @PostMapping(value = "/participantes/search")
+    public ResponseEntity<Map<String, Object>> searchParticipante(@RequestBody ParticipanteSearch participanteSearch) {
+        return participanteService.searchParticipante(participanteSearch);
+    }
 }
